@@ -61,11 +61,11 @@ class NotifyDeleteView(DeleteView, NotifyMixin):
             raise ImproperlyConfigured("No URL to redirect to. Provide a cancel_url.")
 
 
-class NotifyCreateView(CreateView, NotifyMixin):
+class NotifyCreateView(CreateView, NotifyFormMixin):
     pass
 
 
-class NotifyUpdateView(UpdateView, NotifyMixin):
+class NotifyUpdateView(UpdateView, NotifyFormMixin):
     pass
 
 
