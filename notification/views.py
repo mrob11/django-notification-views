@@ -1,3 +1,9 @@
+from django.contrib import messages
+from django.core.urlresolvers import reverse
+from django.views.generic import DetailView
+from django.views.generic.base import View
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormMixin, ModelFormMixin
+
 
 class NotifyMixin(object):
     
@@ -6,20 +12,31 @@ class NotifyMixin(object):
     valid_flash = True
     
     invalid_type = messages.ERROR
-    invalid_message = "<strong>Oops!</strong> There was a problem. Please fix the errors below."
+    invalid_message = None
     invalid_flash = True
     
     notify_list = None
     notify_template = None
     
+    def get_valid_message(self):
+        if self.valid_message:
+            return self.valid_message
+        else:
+            return "<strong>Hooray!</strong> The %s has been saved successfully." % self.model._meta.verbose_name.title()
+
+    def get_invalid_message(self):
+        if self.invalid_message:
+            return self.invalid_message
+        else:
+            return "<strong>Oops!</strong> There was a problem. Please fix the errors below."
+
     def show_invalid_flash(self):
         if self.invalid_flash:
-            messages.add_message(self.request, self.invalid_type, self.invalid_message)
+            messages.add_message(self.request, self.invalid_type, self.get_invalid_message())
             
     def show_valid_flash(self):
-        self.valid_message = "<strong>w00t!</strong> The %s has been saved successfully." % self.model._meta.verbose_name.title()
         if self.valid_flash:
-            messages.add_message(self.request, self.valid_type, self.valid_message)
+            messages.add_message(self.request, self.valid_type, self.get_valid_message())
 
     
 class NotifyFormMixin(FormMixin, NotifyMixin):
@@ -36,9 +53,10 @@ class NotifyFormMixin(FormMixin, NotifyMixin):
 class NotifyDeleteView(DeleteView, NotifyMixin):
     
     cancel_url = None
+    template_name = 'notification/base_confirm_delete.html'
     
     def show_valid_flash(self):
-        self.valid_message = "<strong>w00t!</strong> The %s has been deleted successfully." % self.model._meta.verbose_name.title()
+        self.valid_message = "<strong>Hooray!</strong> The %s has been deleted successfully." % self.model._meta.verbose_name.title()
         if self.valid_flash:
             messages.add_message(self.request, self.valid_type, self.valid_message)
         
