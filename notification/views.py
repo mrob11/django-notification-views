@@ -37,10 +37,18 @@ class NotifyDeleteView(DeleteView, NotifyMixin):
 
 
 class NotifyCreateView(CreateView, NotifyFormMixin):
-    pass
+    
+    def get_context_data(self, **kwargs):
+        context = super(NotifyCreateView, self).get_context_data(**kwargs)
+        context['object_name'] = self.model._meta.verbose_name
+        return context
 
 
 class NotifyUpdateView(UpdateView, NotifyFormMixin):
-    pass
+
+    def get_context_data(self, **kwargs):
+        context = super(NotifyUpdateView, self).get_context_data(**kwargs)
+        context['object_name'] = self.model._meta.verbose_name
+        return context
 
 
