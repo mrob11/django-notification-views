@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.views.generic.edit import FormMixin
 
 class NotifyMixin(object):
