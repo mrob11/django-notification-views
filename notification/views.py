@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.core.urlresolvers import reverse
+from django.core.exceptions import ImproperlyConfigured
 from django.views.generic import DetailView
 from django.views.generic.base import View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
