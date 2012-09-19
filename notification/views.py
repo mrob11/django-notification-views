@@ -14,7 +14,7 @@ class NotifyDeleteView(DeleteView, NotifyMixin):
     template_name = 'notification/base_confirm_delete.html'
     
     def show_valid_flash(self):
-        self.valid_message = "<strong>Hooray!</strong> The %s has been deleted successfully." % self.model._meta.verbose_name.title()
+        self.valid_message = "<strong>Success:</strong> The %s has been deleted." % self.model._meta.verbose_name.title()
         if self.valid_flash:
             messages.add_message(self.request, self.valid_type, self.valid_message)
         

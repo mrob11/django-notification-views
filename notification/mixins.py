@@ -18,13 +18,13 @@ class NotifyMixin(object):
         if self.valid_message:
             return self.valid_message
         else:
-            return "<strong>Hooray!</strong> The %s has been saved successfully." % self.model._meta.verbose_name.title()
+            return "<strong>Success:</strong> The %s has been saved." % self.model._meta.verbose_name.title()
 
     def get_invalid_message(self):
         if self.invalid_message:
             return self.invalid_message
         else:
-            return "<strong>Oops!</strong> There was a problem. Please fix the errors below."
+            return "<strong>Failed:</strong> There was a problem. Please fix the errors below."
 
     def show_invalid_flash(self):
         if self.invalid_flash:
